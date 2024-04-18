@@ -39,11 +39,11 @@ pipeline {
         }                   
         stage( 'Deploy image to AWS EKS' ) {
             steps {
-                withAWS( region:'us-north-1', credentials:'ubuntu' ) {
+                withAWS(credentialsId: 'i-009f91a4458258598', region: 'us-west-2') {
                     sh 'echo "STAGE 4: Deploying image to AWS EKS cluster ..."'
-                    sh 'aws eks --region us-west-2 update-kubeconfig --name capstone'
+                    sh 'aws eks update-kubeconfig --name capstone'
                     sh 'kubectl config use-context arn:aws:eks:us-west-2:428819381342:cluster/capstone'            
-                    sh 'kubectl set image deployment web-app web-app=nigercode/web-app:v1.0'
+                    sh 'kubectl set image deployment web-app web-app=bharathkumar192/web-app:v1.0'
                     sh 'kubectl rollout status deployment web-app'
                     sh 'kubectl apply -f templates/deployment.yml'
                     sh 'kubectl apply -f templates/loadbalancer.yml'
@@ -53,9 +53,10 @@ pipeline {
                     sh 'kubectl get pod -o wide'
                     sh 'kubectl get service/web-app'
                     sh 'echo "Congratulations! Deployment successful."'
-                    sh 'kubectl describe deployment/web-app'
+                    sh 'kubectl describe deployment web-app'
                 }
             }
-        }               
+        }
+           
     }
 }
