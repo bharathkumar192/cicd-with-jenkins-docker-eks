@@ -41,7 +41,7 @@ pipeline {
             steps {
                 withAWS(credentialsId: 'i-009f91a4458258598', region: 'us-west-2') {
                     sh 'echo "STAGE 4: Deploying image to AWS EKS cluster ..."'
-                    sh 'aws eks update-kubeconfig --name capstone'
+                    sh 'aws eks update-kubeconfig --name JenkinsApp'
                     sh 'kubectl config use-context arn:aws:eks:eu-north-1:730335486616:cluster/JenkinsApp'            
                     sh 'kubectl set image deployment web-app web-app=bharathkumar192/web-app:v1.0'
                     sh 'kubectl rollout status deployment web-app'
