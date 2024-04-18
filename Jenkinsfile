@@ -5,7 +5,7 @@ pipeline {
         stage('Clone git repo') {
             steps {
                 sh 'echo "STAGE 0: Cloning app code from SCM ..."'
-                git 'https://github.com/mudathirlawal/cicd-with-jenkins-docker-and-aws-eks.git'
+                git 'https://github.com/bharathkumar192/cicd-with-jenkins-docker-eks.git'
             }    
         }        
         stage('Lint all app code') {
@@ -33,7 +33,7 @@ pipeline {
         }                                   
         stage( 'Deploy image to AWS EKS' ) {
             steps {
-                withAWS( region:'us-west-2', credentials:'capstone' ) {
+                withAWS( region:'us-north-1', credentials:'ubuntu' ) {
                     sh 'echo "STAGE 4: Deploying image to AWS EKS cluster ..."'
                     sh 'aws eks --region us-west-2 update-kubeconfig --name capstone'
                     sh 'kubectl config use-context arn:aws:eks:us-west-2:428819381342:cluster/capstone'            
