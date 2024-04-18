@@ -39,7 +39,7 @@ pipeline {
         }                   
         stage( 'Deploy image to AWS EKS' ) {
             steps {
-                withAWS(credentialsId: 'i-009f91a4458258598', region: 'eu-north-1') {
+                withAWS(credentialsId: 'aws-credentials', region: 'eu-north-1') {
                     sh 'echo "STAGE 4: Deploying image to AWS EKS cluster ..."'
                     sh 'aws eks update-kubeconfig --name JenkinsApp'
                     sh 'kubectl config use-context arn:aws:eks:eu-north-1:730335486616:cluster/JenkinsApp'            
