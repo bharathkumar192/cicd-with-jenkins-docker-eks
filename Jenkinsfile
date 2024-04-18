@@ -23,7 +23,7 @@ pipeline {
         } 
         stage( 'Push image to dockerhub repo' ) {
             steps {
-                withDockerRegistry([url: "", credentialsId: "dockerhub"]) {
+                withDockerRegistry([url: "", credentialsId: "dockerhub-token"]) {
                     sh 'echo "STAGE 3: Uploading image to dockerhub repository ..."'
                     sh 'docker login'
                     sh 'docker tag web-app:v1.0 nigercode/web-app:v1.0'
