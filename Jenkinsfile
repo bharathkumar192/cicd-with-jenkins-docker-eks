@@ -21,16 +21,22 @@ pipeline {
                 sh 'docker image ls'                  
             }
         } 
-        stage( 'Push image to dockerhub repo' ) {
+        stage('Push image to DockerHub repo') {
             steps {
-                withDockerRegistry([url: "", credentialsId: "dockerhub-token"]) {
-                    sh 'echo "STAGE 3: Uploading image to dockerhub repository ..."'
-                    sh 'docker login'
-                    sh 'docker tag web-app:v1.0 nigercode/web-app:v1.0'
-                    sh 'docker push nigercode/web-app:v1.0'          
+                withDockerRegistry([url: "https://index.docker.io/v1/", credentialsId: "dockerhub-token"]) {
+                    sh 'echo "STAGE 3: Uploading image to DockerHub repository ..."'
+                    script {
+                        try {
+                            sh 'docker tag web-app:v1.0 bharathkumar192/web-app:v1.0'
+                            sh 'docker push bharathkumar192/web-app:v1.0'
+                        } catch (Exception e) {
+                            sh 'echo "Failed to push Docker image. Error: $e"'
+                            error "Stopping the build due to failure in pushing Docker image."
+                        }
+                    }
                 }
             }
-        }                                   
+        }                   
         stage( 'Deploy image to AWS EKS' ) {
             steps {
                 withAWS( region:'us-north-1', credentials:'ubuntu' ) {
