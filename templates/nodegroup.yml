@@ -71,18 +71,18 @@
         - arn:aws:iam::aws:policy/AmazonEKSClusterPolicy
         - arn:aws:iam::aws:policy/AmazonEKSServicePolicy    
 
-Conditions:
-  CreateRoleCondition: !Equals 
-    - !Ref EKSIAMRoleName
-    - "EKSJenkins"
-
-Outputs:
-  EKSIAMRoleOutput:
-    Description: "IAM Role for EKS"
-    Value: !If 
-      - CreateRoleCondition
-      - !GetAtt EKSIAMRole.Arn
-      - "arn:aws:iam::730335486616:role/EKSJenkins"
+  Conditions:
+    CreateRoleCondition: !Equals 
+      - !Ref EKSIAMRoleName
+      - "EKSJenkins"
+  
+  Outputs:
+    EKSIAMRoleOutput:
+      Description: "IAM Role for EKS"
+      Value: !If 
+        - CreateRoleCondition
+        - !GetAtt EKSIAMRole.Arn
+        - "arn:aws:iam::730335486616:role/EKSJenkins"
   
 
     VPC:
