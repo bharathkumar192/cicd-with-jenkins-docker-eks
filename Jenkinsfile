@@ -37,17 +37,17 @@ pipeline {
                 }
             }
         }                   
-        stage( 'Deploy image to AWS EKS' ) {
+        stage('Deploy image to AWS EKS') {
             steps {
-                withAWS(credentials: 'aws-credentials', region: 'eu-north-1') {
+                withAWS(credentialsId: 'aws-credentials', region: 'eu-north-1') {
                     sh 'echo "STAGE 4: Deploying image to AWS EKS cluster ..."'
                     sh 'aws eks update-kubeconfig --name JenkinsApp'
-                    sh 'kubectl config use-context arn:aws:eks:eu-north-1:730335486616:cluster/JenkinsApp'            
-                    sh 'kubectl set image deployment web-app web-app=bharathkumar192/web-app:v1.0'
-                    sh 'kubectl rollout status deployment web-app'
+                    sh 'kubectl config use-context arn:aws:eks:eu-north-1:730335486616:cluster/JenkinsApp'
+                    sh 'kubectl apply -f templates/aws-auth-cm.yml'
                     sh 'kubectl apply -f templates/deployment.yml'
                     sh 'kubectl apply -f templates/loadbalancer.yml'
-                    sh 'kubectl apply -f templates/aws-auth-cm.yml'
+                    sh 'kubectl set image deployment/web-app web-app=bharathkumar192/web-app:v1.0'
+                    sh 'kubectl rollout status deployment web-app'
                     sh 'kubectl get nodes --all-namespaces'
                     sh 'kubectl get deployment'
                     sh 'kubectl get pod -o wide'
@@ -57,6 +57,7 @@ pipeline {
                 }
             }
         }
+
            
     }
 }
