@@ -37,40 +37,61 @@ pipeline {
                 }
             }
         }                   
-        stage('Setup Worker Nodes') {
-            steps {
-                withAWS(credentials: 'aws-credentials', region: 'eu-north-1') {
-                    sh 'echo "Deploying Worker Nodes ..."'
-                    // Deploy CloudFormation stack for worker nodes
-                    sh 'aws cloudformation deploy --template-file templates/worker-nodes.yml --stack-name eks-worker-nodes --parameter-overrides ClusterName=JenkinsApp --capabilities CAPABILITY_IAM'
-                    sh 'echo "Waiting for nodes to become active ..."'
-                    // sh 'aws cloudformation deploy --template-file templates/nodegroup.yml --stack-name eks-node-group --parameter-overrides EKSClusterName=JenkinsApp, --capabilities CAPABILITY_NAMED_IAM'
+        // stage('Setup Worker Nodes') {
+        //     steps {
+        //         withAWS(credentials: 'aws-credentials', region: 'eu-north-1') {
+        //             sh 'echo "Deploying Worker Nodes ..."'
+        //             // Deploy CloudFormation stack for worker nodes
+        //             sh 'aws cloudformation deploy --template-file templates/worker-nodes.yml --stack-name eks-worker-nodes --parameter-overrides ClusterName=JenkinsApp --capabilities CAPABILITY_IAM'
+        //             sh 'echo "Waiting for nodes to become active ..."'
+        //             // sh 'aws cloudformation deploy --template-file templates/nodegroup.yml --stack-name eks-node-group --parameter-overrides EKSClusterName=JenkinsApp, --capabilities CAPABILITY_NAMED_IAM'
 
-                    // sh 'sleep 120' // Adjust waiting time based on your environment needs
-                }
-            }
-        }
+        //             // sh 'sleep 120' // Adjust waiting time based on your environment needs
+        //         }
+        //     }
+        // }
 
+        // stage('Deploy image to AWS EKS') {
+        //     steps {
+        //         withAWS(credentials: 'aws-credentials', region: 'eu-north-1') {
+        //             sh 'echo "STAGE 4: Deploying image to AWS EKS cluster ..."'
+        //             sh 'aws eks update-kubeconfig --name JenkinsApp'
+        //             sh 'kubectl config use-context arn:aws:eks:eu-north-1:730335486616:cluster/JenkinsApp'
+        //             sh 'kubectl apply -f templates/aws-auth-cm.yml'
+        //             sh 'kubectl apply -f templates/deployment.yml'
+        //             sh 'kubectl apply -f templates/loadbalancer.yml'
+        //             sh 'kubectl set image deployment/web-app web-app=bharathkumar192/web-app:v1.0'
+        //             sh 'kubectl rollout status deployment web-app'
+        //             sh 'kubectl get nodes --all-namespaces'
+        //             sh 'kubectl get deployment'
+        //             sh 'kubectl get pod -o wide'
+        //             sh 'kubectl get service/web-app'
+        //             sh 'echo "Congratulations! Deployment successful."'
+        //             sh 'kubectl describe deployment web-app'
+        //         }
+        //     }
+        // }
         stage('Deploy image to AWS EKS') {
             steps {
                 withAWS(credentials: 'aws-credentials', region: 'eu-north-1') {
                     sh 'echo "STAGE 4: Deploying image to AWS EKS cluster ..."'
-                    sh 'aws eks update-kubeconfig --name JenkinsApp'
-                    sh 'kubectl config use-context arn:aws:eks:eu-north-1:730335486616:cluster/JenkinsApp'
-                    sh 'kubectl apply -f templates/aws-auth-cm.yml'
-                    sh 'kubectl apply -f templates/deployment.yml'
-                    sh 'kubectl apply -f templates/loadbalancer.yml'
-                    sh 'kubectl set image deployment/web-app web-app=bharathkumar192/web-app:v1.0'
-                    sh 'kubectl rollout status deployment web-app'
-                    sh 'kubectl get nodes --all-namespaces'
-                    sh 'kubectl get deployment'
-                    sh 'kubectl get pod -o wide'
-                    sh 'kubectl get service/web-app'
-                    sh 'echo "Congratulations! Deployment successful."'
-                    sh 'kubectl describe deployment web-app'
+                    try{
+                        sh 'aws eks update-kubeconfig --name JenkinsApp'
+                        sh 'kubectl config use-context arn:aws:eks:eu-north-1:730335486616:cluster/JenkinsApp'
+                        sh 'kubectl apply -f templates/deployment.yml'
+                        sh 'kubectl apply -f templates/loadbalancer.yml'
+                        sh 'kubectl rollout status deployment/web-app-deployment'
+                        sh 'kubectl get nodes --all-namespaces'
+                        sh 'kubectl get deployment'
+                        sh 'kubectl get pod -o wide'
+                        sh 'kubectl get service/web-app'
+                        sh 'echo "Congratulations! Deployment successful."'
+                    } catch (Exception e){
+                     sh 'echo "Failed to deploy to Kubernetes. Error: $e"'
+                     error "Stopping the build due to failure in deployment."    
+                    }
                 }
             }
-        }
-           
+        }           
     }
 }
