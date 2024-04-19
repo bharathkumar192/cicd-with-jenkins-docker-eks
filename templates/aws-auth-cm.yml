@@ -4,7 +4,7 @@ metadata:
   name: aws-auth
   namespace: kube-system
 data:
-  mapRoles: |  
+  mapRoles: |
     - rolearn: arn:aws:iam::730335486616:role/eks-worker-nodes-NodeInstanceRole-BbHpTPBlbeiE
       username: system:node:{{EC2PrivateDNSName}}
       groups:
