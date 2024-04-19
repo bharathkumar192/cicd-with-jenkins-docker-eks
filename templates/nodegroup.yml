@@ -211,8 +211,7 @@
           - '0'
           - Fn::GetAZs:
               Ref: AWS::Region
-        CidrBlock:
-          Ref: PublicSubnet01Block
+        CidrBlock: !Ref PublicSubnet01Block
         VpcId:
           Ref: VPC
         Tags:
@@ -229,8 +228,7 @@
           - '1'
           - Fn::GetAZs:
               Ref: AWS::Region
-        CidrBlock:
-          Ref: PublicSubnet02Block
+        CidrBlock: !Ref PublicSubnet02
         VpcId:
           Ref: VPC
         Tags:
@@ -247,8 +245,7 @@
           - '0'
           - Fn::GetAZs:
               Ref: AWS::Region
-        CidrBlock:
-          Ref: PrivateSubnet01Block
+        CidrBlock: !Ref PrivateSubnet01
         VpcId:
           Ref: VPC
         Tags:
