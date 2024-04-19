@@ -203,68 +203,44 @@
   
     PublicSubnet01:
       Type: AWS::EC2::Subnet
-      Metadata:
-        Comment: Subnet 01
       Properties:
-        AvailabilityZone:
-          Fn::Select:
-          - '0'
-          - Fn::GetAZs:
-              Ref: AWS::Region
-        CidrBlock: !Ref PublicSubnet01Block
         VpcId: !Ref VPC
+        CidrBlock: !Ref PublicSubnet01Block
+        AvailabilityZone: !Select [0, !GetAZs '']
         Tags:
-        - Key: Name
-          Value: !Sub "${AWS::StackName}-PublicSubnet01"
-  
+          - Key: Name
+            Value: !Sub "${AWS::StackName}-PublicSubnet01"
+    
     PublicSubnet02:
       Type: AWS::EC2::Subnet
-      Metadata:
-        Comment: Subnet 02
       Properties:
-        AvailabilityZone:
-          Fn::Select:
-          - '1'
-          - Fn::GetAZs:
-              Ref: AWS::Region
-        CidrBlock: !Ref PublicSubnet02
         VpcId: !Ref VPC
+        CidrBlock: !Ref PublicSubnet02Block
+        AvailabilityZone: !Select [1, !GetAZs '']
         Tags:
-        - Key: Name
-          Value: !Sub "${AWS::StackName}-PublicSubnet02"
-  
+          - Key: Name
+            Value: !Sub "${AWS::StackName}-PublicSubnet02"
+    
     PrivateSubnet01:
       Type: AWS::EC2::Subnet
-      Metadata:
-        Comment: Subnet 03
       Properties:
-        AvailabilityZone:
-          Fn::Select:
-          - '0'
-          - Fn::GetAZs:
-              Ref: AWS::Region
-        CidrBlock: !Ref PrivateSubnet01
         VpcId: !Ref VPC
+        CidrBlock: !Ref PrivateSubnet01Block
+        AvailabilityZone: !Select [0, !GetAZs '']
         Tags:
-        - Key: Name
-          Value: !Sub "${AWS::StackName}-PrivateSubnet01"
-  
+          - Key: Name
+            Value: !Sub "${AWS::StackName}-PrivateSubnet01"
+    
     PrivateSubnet02:
       Type: AWS::EC2::Subnet
-      Metadata:
-        Comment: Private Subnet 02
       Properties:
-        AvailabilityZone:
-          Fn::Select:
-          - '1'
-          - Fn::GetAZs:
-              Ref: AWS::Region
-        CidrBlock:
-          Ref: PrivateSubnet02Block
         VpcId: !Ref VPC
+        CidrBlock: !Ref PrivateSubnet02Block
+        AvailabilityZone: !Select [1, !GetAZs '']
         Tags:
-        - Key: Name
-          Value: !Sub "${AWS::StackName}-PrivateSubnet02"
+          - Key: Name
+            Value: !Sub "${AWS::StackName}-PrivateSubnet02"
+
   
     PublicSubnet01RouteTableAssociation:
       Type: AWS::EC2::SubnetRouteTableAssociation
