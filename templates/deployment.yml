@@ -20,7 +20,7 @@ spec:
         app: web-app
     spec:
       containers:
-        - image: "nigercode/web-app:v1.0"
+        - image: "bharathkumar192/web-app:v1.0"
           imagePullPolicy: Always
           name: web-app
           ports:
