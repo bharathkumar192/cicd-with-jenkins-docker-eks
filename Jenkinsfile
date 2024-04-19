@@ -44,7 +44,7 @@ pipeline {
                     // Deploy CloudFormation stack for worker nodes
                     sh 'aws cloudformation deploy --template-file templates/worker-nodes.yml --stack-name eks-worker-nodes --parameter-overrides ClusterName=JenkinsApp --capabilities CAPABILITY_IAM'
                     sh 'echo "Waiting for nodes to become active ..."'
-                    sh 'aws cloudformation deploy --template-file templates/nodegroup.yml --stack-name eks-node-group --parameter-overrides EKSClusterName=JenkinsApp, --capabilities CAPABILITY_NAMED_IAM'
+                    // sh 'aws cloudformation deploy --template-file templates/nodegroup.yml --stack-name eks-node-group --parameter-overrides EKSClusterName=JenkinsApp, --capabilities CAPABILITY_NAMED_IAM'
 
                     // sh 'sleep 120' // Adjust waiting time based on your environment needs
                 }
