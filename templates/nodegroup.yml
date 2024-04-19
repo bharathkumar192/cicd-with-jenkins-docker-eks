@@ -212,8 +212,7 @@
           - Fn::GetAZs:
               Ref: AWS::Region
         CidrBlock: !Ref PublicSubnet01Block
-        VpcId:
-          Ref: VPC
+        VpcId: !Ref VPC
         Tags:
         - Key: Name
           Value: !Sub "${AWS::StackName}-PublicSubnet01"
@@ -229,8 +228,7 @@
           - Fn::GetAZs:
               Ref: AWS::Region
         CidrBlock: !Ref PublicSubnet02
-        VpcId:
-          Ref: VPC
+        VpcId: !Ref VPC
         Tags:
         - Key: Name
           Value: !Sub "${AWS::StackName}-PublicSubnet02"
@@ -246,8 +244,7 @@
           - Fn::GetAZs:
               Ref: AWS::Region
         CidrBlock: !Ref PrivateSubnet01
-        VpcId:
-          Ref: VPC
+        VpcId: !Ref VPC
         Tags:
         - Key: Name
           Value: !Sub "${AWS::StackName}-PrivateSubnet01"
@@ -264,8 +261,7 @@
               Ref: AWS::Region
         CidrBlock:
           Ref: PrivateSubnet02Block
-        VpcId:
-          Ref: VPC
+        VpcId: !Ref VPC
         Tags:
         - Key: Name
           Value: !Sub "${AWS::StackName}-PrivateSubnet02"
