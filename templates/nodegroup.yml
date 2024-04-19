@@ -6,10 +6,12 @@
   
     EKSIAMRoleName:
       Type: String
+      Default: "EKSJenkins"
       Description: The name of the IAM role for the EKS service to assume.
 
     EKSClusterName:
       Type: String
+      Default: "JenkinsApp"
       Description: The desired name of your AWS EKS Cluster.
 
     VpcBlock:
