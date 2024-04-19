@@ -38,13 +38,16 @@ Parameters:
   ClusterControlPlaneSecurityGroup:
     Type: "AWS::EC2::SecurityGroup::Id"
     Description: The security group of the cluster control plane.
+    Default: "sg-06de10b4be756e74a" 
 
   ClusterName:
     Type: String
+    Default: "EKSJenkins"
     Description: The cluster name provided when the cluster was created. If it is incorrect, nodes will not be able to join the cluster.
 
   KeyName:
     Type: "AWS::EC2::KeyPair::KeyName"
+    Default: "mywebserver"
     Description: The EC2 Key Pair to allow SSH access to the instances
 
   NodeAutoScalingGroupDesiredCapacity:
@@ -64,6 +67,7 @@ Parameters:
 
   NodeGroupName:
     Type: String
+    Default: "EKSJenkins"
     Description: Unique identifier for the Node Group.
 
   NodeImageId:
@@ -312,10 +316,12 @@ Parameters:
 
   Subnets:
     Type: "List<AWS::EC2::Subnet::Id>"
+    Default: "subnet-0a2ba68ef5ccf55b1"
     Description: The subnets where workers can be created.
 
   VpcId:
     Type: "AWS::EC2::VPC::Id"
+    Default: "vpc-0e03ca9c7e38babf4"
     Description: The VPC of the worker instances
 
 Conditions:
