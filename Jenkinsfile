@@ -42,7 +42,7 @@ pipeline {
                 withAWS(credentials: 'aws-credentials', region: 'eu-north-1') {
                     sh 'echo "Deploying Worker Nodes ..."'
                     // Deploy CloudFormation stack for worker nodes
-                    sh 'aws cloudformation deploy --template-file templates/worker-nodes.yml --stack-name eks-worker-nodes --parameter-overrides ClusterName=JenkinsApp --capabilities CAPABILITY_IAM --timeout-in-minutes 15'
+                    sh 'aws cloudformation deploy --template-file templates/worker-nodes.yml --stack-name eks-worker-nodes --parameter-overrides ClusterName=JenkinsApp --capabilities CAPABILITY_IAM'
                     sh 'echo "Waiting for nodes to become active ..."'
                     sh 'sleep 120' // Adjust waiting time based on your environment needs
                 }
