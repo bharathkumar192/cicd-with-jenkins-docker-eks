@@ -53,8 +53,8 @@
             - PrivateSubnet02Block
             
   Conditions:
-  CreateRoleCondition: !Not 
-    [!Equals [!Ref EKSIAMRoleName, "EKSJenkins"]]
+    CreateRoleCondition: !Not 
+      [!Equals [!Ref EKSIAMRoleName, "EKSJenkins"]]
   
   Resources:
   EKSIAMRole:
